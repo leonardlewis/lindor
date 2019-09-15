@@ -1,5 +1,9 @@
-# TODO: Make dates customizable, support Chicago/New York two teams situation.
-from pybaseball import batting_stats_range, pitching_stats
+# TODO: Make season customizable
+
+import pandas as pd
+from pybaseball import batting_stats, pitching_stats
+
+pd.set_option('display.max_rows', 500)
 
 teams = {
         'Indians':'Cleveland',
@@ -16,13 +20,13 @@ teams = {
         'Athletics':'Oakland',
         'Rangers':'Texas',
         'Mariners':'Seattle',
-        'Angels':'Anaheim',
+        'Angels':'Los Angeles',
         'Mets':'New York',
         'Phillies':'Philadelphia',
         'Marlins':'Miami',
         'Braves':'Atlanta',
         'Nationals':'Washington',
-        'Cardinals':'St Louis',
+        'Cardinals':'St\. Louis',
         'Cubs':'Chicago',
         'Pirates':'Pittsburgh',
         'Reds':'Cincinnati',
@@ -35,16 +39,20 @@ teams = {
         }
 
 def retrieve_stats(team):
-    batting = batting_stats_range('2019-04-01', '2019-09-14')
+    batting = batting_stats(2019)
     pitching = pitching_stats(2019)
 
+    team_batting = batting[batting['Team'] == team][['Name', 'PA', 'WAR', 'wRC+', 'AVG', 'OBP', 'SLG', 'OPS', 'HR']].sort_values('PA', ascending=False)
+
     print("***** BATTING STATS *****")
-    print(batting[batting['Tm'] == city][['Name', 'PA', 'OPS', 'BA', 'OBP', 'SLG', 'HR']].sort_values('PA', ascending=False))
+    print(team_batting)
 
     print("")
 
+    team_pitching = pitching[pitching['Team'] == team][['Name', 'IP', 'WAR', 'FIP']].sort_values('IP', ascending=False)
+
     print("***** PITCHING STATS *****")
-    print(pitching[pitching['Team'] == team][['Name', 'IP', 'WAR', 'FIP']].sort_values('IP', ascending=False))
+    print(team_pitching)
 
 team = None
 
