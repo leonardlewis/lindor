@@ -38,9 +38,9 @@ teams = {
         'Rockies':'Colorado'
         }
 
-def retrieve_stats(team):
-    batting = batting_stats(2019)
-    pitching = pitching_stats(2019)
+def retrieve_stats(team, year):
+    batting = batting_stats(year)
+    pitching = pitching_stats(year)
 
     team_batting = batting[batting['Team'] == team][['Name', 'PA', 'WAR', 'wRC+', 'AVG', 'OBP', 'SLG', 'OPS', 'HR']].sort_values('PA', ascending=False)
 
@@ -55,21 +55,25 @@ def retrieve_stats(team):
     print(team_pitching)
 
 team = None
+year = None
 
 while team is None:
     print("For which team would you like to retrieve data? (Enter the team nickname, not the city.)")
     team = input("> ")
-
-    if team in teams.keys():
-        city = teams[team]
-        print(f"Looking up data for the {team} of {city}. This will just take a moment...")
-        retrieve_stats(team)
-        print("Would you like to retrieve data for another team? (Enter 'Y' or 'N'.)")
-        rerun = input("> ")
-        if rerun == 'Y':
-            team = None
-        else:
-            print("Have a great day!")
-    else:
+    if team not in teams.keys():
         print("That is not a team!")
         team = None
+    else:
+        while year is None:
+            print("For which year would you like to retrieve data? (Enter YYYY)")
+            year = input("> ")
+            city = teams[team]
+            print(f"Looking up data for the {year} {team} of {city}. This will just take a moment...")
+            retrieve_stats(team, year)
+            print("Would you like to retrieve data for another team? (Enter 'Y' or 'N'.)")
+            rerun = input("> ")
+            if rerun == 'Y':
+                team = None
+                year = None
+            else:
+                print("Have a great day!")
