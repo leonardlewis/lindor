@@ -1,5 +1,3 @@
-# TODO: Make season customizable
-
 import pandas as pd
 from pybaseball import batting_stats, pitching_stats
 
@@ -43,6 +41,7 @@ def retrieve_stats(team, year):
     pitching = pitching_stats(year)
 
     team_batting = batting[batting['Team'] == team][['Name', 'PA', 'WAR', 'wRC+', 'AVG', 'OBP', 'SLG', 'OPS', 'HR']].sort_values('PA', ascending=False)
+    team_batting = team_batting.set_index('Name')
 
     print("***** BATTING STATS *****")
     print(team_batting)
@@ -50,6 +49,7 @@ def retrieve_stats(team, year):
     print("")
 
     team_pitching = pitching[pitching['Team'] == team][['Name', 'IP', 'WAR', 'FIP']].sort_values('IP', ascending=False)
+    team_pitching = team_pitching.set_index('Name')
 
     print("***** PITCHING STATS *****")
     print(team_pitching)
