@@ -72,8 +72,8 @@ while team is None:
             retrieve_stats(team, year)
             print("Would you like to retrieve data for another team? (Enter 'Y' or 'N'.)")
             rerun = input("> ")
-            if rerun == 'Y':
-                team = None
-                year = None
-            else:
-                print("Have a great day!")
+        if rerun == 'Y':
+            team = None
+            year = None
+        else:
+            print("Have a great day!")
